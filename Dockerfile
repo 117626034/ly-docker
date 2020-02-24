@@ -26,7 +26,16 @@ RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases
     apk add --no-cache \
         "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
         "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
-        "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME" && \
+        "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME" \
+        openjdk8 \
+        curl \
+        busybox \
+        ttf-dejavu \
+        tzdata && \
+        cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+        echo Asia/Shanghai > /etc/timezone && \
+        apk del tzdata && \
+        rm -rf /tmp/* /var/cache/apk/* && \
     \
     rm "/etc/apk/keys/sgerrand.rsa.pub" && \
     /usr/glibc-compat/bin/localedef --force --inputfile POSIX --charmap UTF-8 "$LANG" || true && \
@@ -40,3 +49,6 @@ RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases
         "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
         "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
         "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME"
+
+
+
