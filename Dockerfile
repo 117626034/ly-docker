@@ -1,6 +1,4 @@
 FROM alpine:latest
-ENV LANG=C.UTF-8
-
 # Here we install GNU libc (aka glibc) and set C.UTF-8 locale as default.
 RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download" && \
     ALPINE_GLIBC_PACKAGE_VERSION="2.30-r0" && \
@@ -33,6 +31,7 @@ RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases
         rm -rf /tmp/* /var/cache/apk/* && \
         rm "/etc/apk/keys/sgerrand.rsa.pub" && \
         /usr/glibc-compat/bin/localedef -i en_US -f UTF-8 en_US.UTF-8 && \
+        apk del glibc-i18n && \
         rm "/root/.wget-hsts" && \
         apk del .build-dependencies && \
     rm \
